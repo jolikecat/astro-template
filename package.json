@@ -12,6 +12,10 @@
 	"dependencies": {
 		"astro": "^2.0.10"
 	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.13",
+		"sass": "^1.58.0"
+	},
 	"volta": {
 		"node": "18.14.0"
 	}
