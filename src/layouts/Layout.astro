@@ -1,19 +1,34 @@
 ---
-export interface Props {
+import { SITE_TITLE } from "../constants";
+
+type Props = {
 	title: string;
+	description: string;
+	type?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, type } = Astro.props;
+
+const url = new URL(Astro.url.pathname, Astro.site);
+const ogType = type ?? 'website';
 ---
 
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
+<html lang="ja">
+	<head prefix="og: http://ogp.me/ns#">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
 		<title>{title}</title>
+		<meta name="description" content={description}>
+
+		<meta property="og:title" content={title}>
+		<meta property="og:description" content={description}>
+		<meta property="og:url" content={url}>
+		<meta property="og:locale" content="ja_JP">
+		<meta property="og:image" content={`${url}ogp.jpg`}>
+		<meta property="og:type" content={ogType}>
+		<meta property="og:site_name" content={SITE_TITLE}>
+		<meta name="twitter:card" content="summary_large_image">
 	</head>
 	<body>
 		<slot />
