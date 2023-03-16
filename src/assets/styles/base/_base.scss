@@ -1,0 +1,97 @@
+@use '../abstracts' as a;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	-webkit-tap-highlight-color: revert;
+	cursor: revert;
+	min-width: 375px;
+	font-size: 62.5%;
+	font-family: 'Noto Sans JP', sans-serif;
+	line-break: normal;
+	overflow-wrap: anywhere;
+
+	@include a.mq(md) {
+		min-width: 1280px;
+	}
+}
+
+body {
+	font-size: 1.6rem;
+}
+
+li {
+	list-style-type: none;
+}
+
+th {
+	font-weight: inherit;
+}
+
+address {
+	font-style: inherit;
+}
+
+fieldset {
+	border: 0;
+	min-width: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: inherit;
+	font-size: inherit;
+}
+
+h1 {
+	margin: 0;
+}
+
+cite,
+dfn,
+em,
+i,
+var {
+	font-style: inherit;
+}
+
+small {
+	font-size: inherit;
+}
+
+a {
+	color: currentColor;
+	text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+	border: 0;
+	padding: 0;
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+}
+
+button {
+	touch-action: manipulation;
+
+	&:not(:disabled, [aria-disabled='true']) {
+		cursor: pointer;
+	}
+}
+
+[hidden][hidden] {
+	// stylelint-disable-next-line declaration-no-important
+	display: none !important;
+}
