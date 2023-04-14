@@ -1,8 +1,9 @@
+import compress from 'astro-compress';
 import { defineConfig } from 'astro/config';
 import path from 'path';
-import compress from "astro-compress";
 
-// https://astro.build/config
+import HtmlCssFormatter from './integrations/html-css-formatter'
+
 export default defineConfig({
     site: 'https://example.com/',
     build: {
@@ -30,14 +31,13 @@ export default defineConfig({
         }
     },
     integrations: [
+        HtmlCssFormatter(),
         compress({
-            css: false,
+            css: true,
             html: {
                 collapseBooleanAttributes: true,
-                collapseWhitespace: false,
+                removeAttributeQuotes: false,
                 removeComments: false,
-                removeEmptyAttributes: false,
-                removeRedundantAttributes: false,
                 sortAttributes: false,
                 sortClassName: false,
             },
