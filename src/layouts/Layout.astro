@@ -1,13 +1,16 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { SITE_TITLE } from "../constants";
+import { SITE_TITLE } from '../constants';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+import '../assets/styles/main.scss';
 
 type Props = {
 	title: string;
 	description: string;
 	type?: string;
-}
+};
 
 const { title, description, type } = Astro.props;
 
@@ -18,25 +21,24 @@ const ogType = type ?? 'website';
 <!DOCTYPE html>
 <html lang="ja">
 	<head prefix="og: http://ogp.me/ns#">
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
 		<title>{title}</title>
-		<meta name="description" content={description}>
+		<meta name="description" content={description} />
 
-		<meta property="og:title" content={title}>
-		<meta property="og:description" content={description}>
-		<meta property="og:url" content={url}>
-		<meta property="og:locale" content="ja_JP">
-		<meta property="og:image" content={`${url}ogp.jpg`}>
-		<meta property="og:type" content={ogType}>
-		<meta property="og:site_name" content={SITE_TITLE}>
-		<meta name="twitter:card" content="summary_large_image">
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={url} />
+		<meta property="og:locale" content="ja_JP" />
+		<meta property="og:image" content={`${url}ogp.jpg`} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:site_name" content={SITE_TITLE} />
+		<meta name="twitter:card" content="summary_large_image" />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" />
 
-		<script src="../assets/scripts/viewport.js" is:inline></script>
 		<script src="../assets/scripts/main.js"></script>
 	</head>
 	<body>
@@ -47,7 +49,3 @@ const ogType = type ?? 'website';
 		<Footer />
 	</body>
 </html>
-
-<style lang="scss" is:global>
-@use '../assets/styles/main.scss'
-</style>

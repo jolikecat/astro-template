@@ -1,1 +1,1 @@
-export const SITE_TITLE = "Site Name";
+export const SITE_TITLE = 'Site Name';
