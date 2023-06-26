@@ -25,8 +25,8 @@ export default defineConfig({
                         if (/jpg|jpeg|png|webp|svg|gif|avif/.test(extType)) {
                             extType = 'images';
                         }
-                        
-                        return `assets/${extType}/[name].[hash][extname]`;
+
+                        return `assets/${extType}/[name][extname]`;
                     }
                 }
             }
