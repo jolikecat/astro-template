@@ -54,7 +54,7 @@ export default defineConfig({
                 'astro:build:setup': ({vite, target}) => {
                     if(target === 'client') {
                         vite.build.rollupOptions.output.chunkFileNames = () => {
-                            return `assets/chunks /chunk${count++}.js`
+                            return `assets/scripts/chunks/[name].js`
                         }
                     }
                 }
