@@ -8,7 +8,7 @@ export default defineConfig({
     site: 'https://example.com/',
     build: {
         format: 'file',
-        assets: 'assets/scripts',
+        assets: 'assets',
     },
     vite: {
         build: {
@@ -27,7 +27,8 @@ export default defineConfig({
                         }
 
                         return `assets/${extType}/[name][extname]`;
-                    }
+                    },
+                    entryFileNames: `assets/scripts/[name].js`,
                 }
             }
         }
@@ -46,6 +47,18 @@ export default defineConfig({
             img: false,
             js: false,
             svg: false,
-        })
+        }),
+        {
+            name: 'chunkFileNames-for-client',
+            hooks: {
+                'astro:build:setup': ({vite, target}) => {
+                    if(target === 'client') {
+                        vite.build.rollupOptions.output.chunkFileNames = () => {
+                            return `assets/chunks /chunk${count++}.js`
+                        }
+                    }
+                }
+            }
+        }
     ]
 });
