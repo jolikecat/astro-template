@@ -13,14 +13,14 @@
 		"sanitize.css": "^13.0.0"
 	},
 	"devDependencies": {
-		"astro": "^4.0.3",
+		"astro": "^4.4.6",
 		"astro-compress": "^1.1.49",
-		"autoprefixer": "^10.4.16",
-		"prettier": "^3.1.1",
-		"prettier-plugin-astro": "^0.12.2",
-		"sass": "^1.69.5"
+		"autoprefixer": "^10.4.17",
+		"prettier": "^3.2.5",
+		"prettier-plugin-astro": "^0.13.0",
+		"sass": "^1.71.1"
 	},
 	"volta": {
-		"node": "20.10.0"
+		"node": "20.11.1"
 	}
 }
