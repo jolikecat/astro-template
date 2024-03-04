@@ -7,7 +7,7 @@ import HtmlCssFormatter from './integrations/html-css-formatter'
 export default defineConfig({
     site: 'https://example.com/',
     build: {
-        format: 'file',
+        format: 'preserve',
         assets: 'assets',
     },
     vite: {
