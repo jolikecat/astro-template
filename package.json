@@ -6,7 +6,7 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview --host",
-		"format": "prettier -w ./src/",
+		"format": "prettier -w .",
 		"astro": "astro"
 	},
 	"dependencies": {
@@ -18,6 +18,7 @@
 		"autoprefixer": "^10.4.17",
 		"prettier": "^3.2.5",
 		"prettier-plugin-astro": "^0.13.0",
+		"prettier-plugin-package": "^1.4.0",
 		"sass": "^1.71.1"
 	},
 	"volta": {

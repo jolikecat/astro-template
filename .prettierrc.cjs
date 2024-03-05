@@ -4,17 +4,17 @@
  * @type { import('prettier').Config }
  */
 module.exports = {
-    printWidth: Number.POSITIVE_INFINITY,
+	printWidth: Number.POSITIVE_INFINITY,
 	singleQuote: true,
 	trailingComma: 'all',
 	useTabs: true,
-    plugins: [require.resolve('prettier-plugin-astro')],
+	plugins: [require.resolve('prettier-plugin-astro')],
 	overrides: [
-        {
-            files: '*.astro',
-            options: {
-                parser: 'astro'
-            },
-        }
+		{
+			files: '*.astro',
+			options: {
+				parser: 'astro',
+			},
+		},
 	],
 };
