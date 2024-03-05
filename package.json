@@ -2,12 +2,13 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
+		"astro": "astro",
 		"build": "astro build",
-		"preview": "astro preview --host",
+		"dev": "astro dev",
 		"format": "prettier -w .",
-		"astro": "astro"
+		"format:dist": "prettier -w ./dist/ --ignore-path .prettierignore",
+		"preview": "astro preview --host",
+		"start": "astro dev"
 	},
 	"dependencies": {
 		"sanitize.css": "^13.0.0"

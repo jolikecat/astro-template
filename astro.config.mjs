@@ -4,6 +4,7 @@ import path from 'path';
 
 export default defineConfig({
 	site: 'https://example.com/',
+	compressHTML: false,
 	build: {
 		format: 'preserve',
 		assets: 'assets',
@@ -32,19 +33,6 @@ export default defineConfig({
 		},
 	},
 	integrations: [
-		compress({
-			css: true,
-			html: {
-				collapseBooleanAttributes: true,
-				removeAttributeQuotes: false,
-				removeComments: false,
-				sortAttributes: false,
-				sortClassName: false,
-			},
-			img: false,
-			js: false,
-			svg: false,
-		}),
 		{
 			name: 'chunkFileNames-for-client',
 			hooks: {

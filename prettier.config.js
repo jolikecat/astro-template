@@ -3,12 +3,12 @@
 /**
  * @type { import('prettier').Config }
  */
-module.exports = {
+const config = {
 	printWidth: Number.POSITIVE_INFINITY,
 	singleQuote: true,
 	trailingComma: 'all',
 	useTabs: true,
-	plugins: [require.resolve('prettier-plugin-astro')],
+	plugins: ['prettier-plugin-astro'],
 	overrides: [
 		{
 			files: '*.astro',
@@ -18,3 +18,5 @@ module.exports = {
 		},
 	],
 };
+
+export default config;
