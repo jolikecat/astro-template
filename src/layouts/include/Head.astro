@@ -1,0 +1,41 @@
+---
+import { SITE_TITLE } from '@/constants';
+
+type Props = {
+	title: string;
+	description: string;
+	type?: string;
+	pagePath: string;
+	noindex?: Boolean;
+};
+
+const { title, description, type, pagePath, noindex } = Astro.props;
+
+const url = new URL(pagePath, Astro.site);
+const ogType = type ?? 'website';
+---
+
+<head prefix="og: http://ogp.me/ns#">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>{title}</title>
+	<meta name="description" content={description} />
+
+	{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	<meta property="og:url" content={url} />
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:image" content={`${Astro.site}ogp.jpg`} />
+	<meta property="og:type" content={ogType} />
+	<meta property="og:site_name" content={SITE_TITLE} />
+	<meta name="twitter:card" content="summary_large_image" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" />
+
+	<script src="@/assets/scripts/main.js"></script>
+	<slot />
+</head>

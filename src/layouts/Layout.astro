@@ -1,8 +1,5 @@
 ---
-import '@/assets/styles/main.scss';
-
-import { SITE_TITLE } from '@/constants';
-
+import Head from '@/layouts/include/Head.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 
@@ -10,37 +7,18 @@ type Props = {
 	title: string;
 	description: string;
 	type?: string;
+	pagePath: string;
+	noindex?: Boolean;
 };
 
-const { title, description, type } = Astro.props;
-
-const url = new URL(Astro.url.pathname, Astro.site);
-const ogType = type ?? 'website';
+const { title, description, type, pagePath, noindex } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ja">
-	<head prefix="og: http://ogp.me/ns#">
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>{title}</title>
-		<meta name="description" content={description} />
-
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:url" content={url} />
-		<meta property="og:locale" content="ja_JP" />
-		<meta property="og:image" content={`${url}ogp.jpg`} />
-		<meta property="og:type" content={ogType} />
-		<meta property="og:site_name" content={SITE_TITLE} />
-		<meta name="twitter:card" content="summary_large_image" />
-
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" />
-
-		<script src="../assets/scripts/main.js"></script>
-	</head>
+	<Head title={title} description={description} type={type} pagePath={pagePath} noindex={noindex}>
+		<slot name="scripts" />
+	</Head>
 	<body>
 		<Header />
 		<main>

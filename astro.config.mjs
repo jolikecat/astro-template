@@ -24,9 +24,28 @@ export default defineConfig({
 							extType = 'images';
 						}
 
-						return `assets/${extType}/[name][extname]`;
+						const fileName = assetInfo.name.includes('Head') ? 'main' : '[name]';
+
+						return `assets/${extType}/${fileName}[extname]`;
 					},
-					entryFileNames: `assets/scripts/[name].js`,
+					entryFileNames: (chunkInfo) => {
+						console.log(chunkInfo);
+						const pathName =
+							chunkInfo.moduleIds.length !== 0 &&
+							(chunkInfo.moduleIds[0].includes('hoisted')
+								? 'hoisted'
+								: path.basename(
+										chunkInfo.moduleIds.find((file) => file.endsWith('.js')),
+										'.js',
+									));
+
+						return `assets/scripts/${pathName ? pathName : 'hoisted'}.js`;
+					},
+					// manualChunks(id) {
+					// 	if (id.includes('node_modules')) {
+					// 		return 'vendor';
+					// 	}
+					// },
 				},
 			},
 		},
@@ -38,7 +57,7 @@ export default defineConfig({
 				'astro:build:setup': ({ vite, target }) => {
 					if (target === 'client') {
 						vite.build.rollupOptions.output.chunkFileNames = () => {
-							return `assets/scripts/chunks/[name].js`;
+							return `assets/scripts/[name].js`;
 						};
 					}
 				},
