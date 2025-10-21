@@ -14,12 +14,12 @@
 		"sanitize.css": "^13.0.0"
 	},
 	"devDependencies": {
-		"astro": "^5.12.8",
+		"astro": "^5.14.7",
 		"autoprefixer": "^10.4.21",
-		"prettier": "^3.5.3",
+		"prettier": "^3.6.2",
 		"prettier-plugin-astro": "^0.14.1",
-		"prettier-plugin-package": "^1.4.0",
-		"sass-embedded": "^1.87.0"
+		"prettier-plugin-package": "^2.0.0",
+		"sass-embedded": "^1.93.2"
 	},
 	"volta": {
 		"node": "22.14.0"
