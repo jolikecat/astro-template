@@ -29,7 +29,6 @@ export default defineConfig({
 						return `assets/${extType}/${fileName}[extname]`;
 					},
 					entryFileNames: (chunkInfo) => {
-						console.log(chunkInfo);
 						const pathName =
 							chunkInfo.moduleIds.length !== 0 &&
 							(chunkInfo.moduleIds[0].includes('hoisted')
