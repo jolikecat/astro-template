@@ -1,4 +1,4 @@
-@use '../abstracts' as a;
+@use '@/assets/styles/abstracts' as a;
 
 * {
 	margin: 0;
@@ -11,7 +11,7 @@ html {
 	min-width: 375px;
 	font-size: 62.5%;
 	font-family: 'Noto Sans JP', sans-serif;
-	line-break: normal;
+	line-break: strict;
 	overflow-wrap: anywhere;
 
 	@include a.mq(md) {
@@ -94,4 +94,29 @@ button {
 [hidden][hidden] {
 	// stylelint-disable-next-line declaration-no-important
 	display: none !important;
+}
+
+img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+:where(dialog) {
+	width: unset;
+	max-width: unset;
+	height: unset;
+	max-height: unset;
+	padding: unset;
+	color: unset;
+	background-color: unset;
+	border: unset;
+	overflow: unset;
 }

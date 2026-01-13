@@ -1,9 +1,16 @@
 ---
-import Layout from '@/layouts/Layout.astro';
 import '@/assets/styles/pages/index/style.scss';
+
+import Layout from '@/layouts/Layout.astro';
+
+const page = {
+	title: 'title',
+	description: 'description',
+	path: '/',
+};
 ---
 
-<Layout title="title" description="description" pagePath="/">
+<Layout title={page.title} description={page.description} pagePath={page.path}>
 	<Fragment slot="scripts">
 		<script src="@/assets/scripts/index.js"></script>
 	</Fragment>
