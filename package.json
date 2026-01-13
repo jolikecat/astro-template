@@ -3,7 +3,7 @@
 	"type": "module",
 	"scripts": {
 		"astro": "astro",
-		"build": "astro build",
+		"build": "astro build && npm run format:dist",
 		"dev": "astro dev",
 		"format": "prettier -w .",
 		"format:dist": "prettier -w ./dist/ --ignore-path .prettierignore",
@@ -14,14 +14,14 @@
 		"sanitize.css": "^13.0.0"
 	},
 	"devDependencies": {
-		"astro": "^5.15.9",
-		"autoprefixer": "^10.4.22",
-		"prettier": "^3.6.2",
+		"astro": "^5.16.9",
+		"autoprefixer": "^10.4.23",
+		"prettier": "^3.7.4",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-package": "^2.0.0",
-		"sass-embedded": "^1.93.3"
+		"sass-embedded": "^1.97.2"
 	},
 	"volta": {
-		"node": "24.11.1"
+		"node": "24.12.0"
 	}
 }
