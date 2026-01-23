@@ -8,6 +8,7 @@ const config = {
 	singleQuote: true,
 	trailingComma: 'all',
 	useTabs: true,
+	htmlWhitespaceSensitivity: 'ignore',
 	plugins: ['prettier-plugin-astro'],
 	overrides: [
 		{

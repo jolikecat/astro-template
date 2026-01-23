@@ -7,6 +7,7 @@
 		"dev": "astro dev",
 		"format": "prettier -w .",
 		"format:dist": "prettier -w ./dist/ --ignore-path .prettierignore",
+		"prepare": "husky",
 		"preview": "astro preview --host",
 		"start": "astro dev"
 	},
@@ -16,6 +17,8 @@
 	"devDependencies": {
 		"astro": "^5.16.14",
 		"autoprefixer": "^10.4.23",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"prettier": "^3.8.1",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-package": "^2.0.0",
