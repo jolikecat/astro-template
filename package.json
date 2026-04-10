@@ -23,8 +23,5 @@
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-package": "^2.0.0",
 		"sass-embedded": "^1.97.3"
-	},
-	"volta": {
-		"node": "24.12.0"
 	}
 }
