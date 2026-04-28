@@ -1,9 +1,10 @@
 {
 	"private": true,
 	"type": "module",
+	"packageManager": "pnpm@10.33.0",
 	"scripts": {
 		"astro": "astro",
-		"build": "astro build && npm run format:dist",
+		"build": "astro build && pnpm run format:dist",
 		"dev": "astro dev",
 		"format": "prettier -w .",
 		"format:dist": "prettier -w ./dist/ --ignore-path .prettierignore",

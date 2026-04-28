@@ -9,6 +9,11 @@ export default defineConfig({
 		assets: 'assets',
 	},
 	vite: {
+		resolve: {
+			alias: {
+				'@': path.resolve('./src'),
+			},
+		},
 		build: {
 			assetsInlineLimit: 0,
 			rollupOptions: {

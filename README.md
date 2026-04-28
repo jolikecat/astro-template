@@ -4,11 +4,11 @@
 
 ```shell
 # Installs dependencies
-$ npm install
+$ pnpm install
 
 # Starts local dev server at localhost:3000
-$ npm run dev
+$ pnpm dev
 
 # Build for production
-$ npm run build
+$ pnpm build
 ```
