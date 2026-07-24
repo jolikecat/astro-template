@@ -1,0 +1,38 @@
+diff --git a/dist/assets/utils/hash.js b/dist/assets/utils/hash.js
+index 171f39d58241d3dad4f32ab630cd9c6d4855f3fc..58b55384f8626e7cfd1f4dabbb5643e26ba579cf 100644
+--- a/dist/assets/utils/hash.js
++++ b/dist/assets/utils/hash.js
+@@ -36,7 +36,7 @@ function propsToFilename(filePath, transform, hash) {
+   }
+   const prefixDirname = isESMImportedImage(transform.src) ? dirname(filePath) : "";
+   let outputExt = transform.format ? `.${transform.format}` : ext;
+-  return `${prefixDirname}/${filename}_${hash}${outputExt}`;
++  return `${prefixDirname}/${filename}${outputExt}`;
+ }
+ function hashTransform(transform, imageService, propertiesToHash) {
+   const hashFields = propertiesToHash.reduce(
+diff --git a/dist/assets/vite-plugin-assets.js b/dist/assets/vite-plugin-assets.js
+index 377cdae77123d04e66e7e1b709277701f24d44bc..365c9d3a1cdbc531de994716dc2b79567a1867a3 100644
+--- a/dist/assets/vite-plugin-assets.js
++++ b/dist/assets/vite-plugin-assets.js
+@@ -1,4 +1,4 @@
+-import { extname } from "node:path";
++import { extname, relative } from "node:path";
+ import MagicString from "magic-string";
+ import picomatch from "picomatch";
+ import { AstroError, AstroErrorData } from "../core/errors/index.js";
+@@ -269,7 +269,13 @@ function assets({ fs, settings, sync, logger }) {
+           if (!assetRegexEnds.test(id)) {
+             return;
+           }
+-          const fileEmitter = shouldEmitFile ? (opts) => emitClientAsset(this, opts) : void 0;
++          const originalFileName = normalizePath(relative(resolvedConfig.root, id));
++          const imagePath = originalFileName.match(/(?:^|\/)assets\/images\/(.+)$/)?.[1];
++          const fileEmitter = shouldEmitFile ? (opts) => emitClientAsset(this, {
++            ...opts,
++            ...imagePath ? { fileName: joinPaths(settings.config.build.assets, "images", imagePath) } : {},
++            originalFileName
++          }) : void 0;
+           const imageMetadata = await emitImageMetadata(id, fileEmitter);
+           if (!imageMetadata) {
+             throw new AstroError({

@@ -1,5 +1,3 @@
-import '@/assets/styles/main.scss';
-
 const minWidth = 375;
 const el = document.querySelector('meta[name="viewport"]');
 const updateContent = () => {

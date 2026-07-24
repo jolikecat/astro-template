@@ -2,3 +2,5 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   sharp: true
+patchedDependencies:
+  astro@7.1.3: patches/astro@7.1.3.patch
