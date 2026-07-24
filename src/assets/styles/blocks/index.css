@@ -1,0 +1,9 @@
+@import './prose.css';
+
+/*
+ * Add one import per block above this comment, for example:
+ * @import './card.css';
+ *
+ * Keep exceptions in the block file itself:
+ * .card[data-variant='featured'] {}
+ */

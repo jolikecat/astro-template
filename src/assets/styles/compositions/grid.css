@@ -1,0 +1,15 @@
+.grid {
+	display: grid;
+	grid-template-columns: repeat(var(--grid-placement, auto-fill), minmax(var(--grid-min-item-size, 16rem), 1fr));
+	gap: var(--gutter, 1rem);
+}
+
+.grid[data-layout='halves'] {
+	--grid-placement: auto-fit;
+	--grid-min-item-size: clamp(16rem, 50vw, 33rem);
+}
+
+.grid[data-layout='thirds'] {
+	--grid-placement: auto-fit;
+	--grid-min-item-size: clamp(16rem, 33%, 20rem);
+}

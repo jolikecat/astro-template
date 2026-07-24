@@ -1,8 +1,25 @@
 import path from 'node:path';
 
-import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig, svgoOptimizer } from 'astro/config';
 
+const imageQuality = 70;
 const imageExtensionPattern = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
+const svgOptimizer = svgoOptimizer({
+	multipass: true,
+	floatPrecision: 3,
+	plugins: [
+		{
+			name: 'preset-default',
+			params: {
+				overrides: {
+					convertPathData: { transformPrecision: 3 },
+					convertTransform: { transformPrecision: 3 },
+				},
+			},
+		},
+	],
+});
 
 const assetFileNames = (assetInfo) => {
 	const assetName = assetInfo.names?.[0] ?? assetInfo.name ?? '';
@@ -12,12 +29,7 @@ const assetFileNames = (assetInfo) => {
 
 	if (extension === '.css') {
 		directory = 'styles';
-
-		const cssName = path.basename(assetName, extension).replace(/@_@astro$/, '');
-		const originalFileName = assetInfo.originalFileNames?.[0] ?? assetInfo.originalFileName ?? '';
-		const pagePath = originalFileName.match(/(?:^|\/)pages\/(.+?)@_@astro$/)?.[1];
-
-		fileName = pagePath ? pagePath.replaceAll('/', '-') : cssName;
+		fileName = path.basename(assetName, extension).replace(/@_@astro$/, '');
 	}
 
 	if (imageExtensionPattern.test(extension)) {
@@ -31,6 +43,30 @@ const assetFileNames = (assetInfo) => {
 	return `assets/${directory}/${fileName}[extname]`;
 };
 
+const optimizeSourceSvgAssets = {
+	name: 'optimize-source-svg-assets',
+	enforce: 'post',
+	async generateBundle(_options, bundle) {
+		await Promise.all(
+			Object.values(bundle).map(async (output) => {
+				if (output.type !== 'asset' || path.extname(output.fileName) !== '.svg') return;
+
+				const isFromSource = output.originalFileNames.some((fileName) => {
+					const normalizedFileName = fileName.replaceAll('\\', '/');
+
+					return normalizedFileName.startsWith('src/') || normalizedFileName.includes('/src/');
+				});
+
+				if (!isFromSource) return;
+
+				const source = typeof output.source === 'string' ? output.source : new TextDecoder().decode(output.source);
+
+				output.source = await svgOptimizer.optimize(source);
+			}),
+		);
+	},
+};
+
 export default defineConfig({
 	site: 'https://example.com/',
 	compressHTML: false,
@@ -38,7 +74,22 @@ export default defineConfig({
 		format: 'preserve',
 		assets: 'assets',
 	},
+	image: {
+		service: {
+			entrypoint: 'astro/assets/services/sharp',
+			config: {
+				jpeg: { quality: imageQuality },
+				png: { quality: imageQuality },
+				webp: { quality: imageQuality },
+				avif: { quality: imageQuality },
+			},
+		},
+	},
+	experimental: {
+		svgOptimizer,
+	},
 	vite: {
+		plugins: [tailwindcss(), optimizeSourceSvgAssets],
 		resolve: {
 			alias: {
 				'@': path.resolve('./src'),

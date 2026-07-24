@@ -1,0 +1,15 @@
+.switcher {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gutter, 1rem);
+	align-items: var(--switcher-vertical-alignment, flex-start);
+}
+
+.switcher > * {
+	flex-grow: 1;
+	flex-basis: calc((var(--switcher-target-container-width, 40rem) - 100%) * 999);
+}
+
+.switcher > :nth-child(n + 3) {
+	flex-basis: 100%;
+}

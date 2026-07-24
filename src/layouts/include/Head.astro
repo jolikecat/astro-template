@@ -1,7 +1,6 @@
 ---
 import { SITE_TITLE } from '@/constants';
-
-import mainStylesheetUrl from '@/assets/styles/main.scss?url';
+import globalStylesheetUrl from '@/assets/styles/global.css?url';
 
 type Props = {
 	title: string;
@@ -48,5 +47,5 @@ const ogType = type ?? 'website';
 	<script src="@/assets/scripts/main.js"></script>
 	<slot />
 
-	<link rel="stylesheet" href={mainStylesheetUrl} />
+	<link rel="stylesheet" href={globalStylesheetUrl} />
 </head>

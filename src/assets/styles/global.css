@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+@import './base.css' layer(base);
+@import './compositions/flow.css' layer(components);
+@import './compositions/cluster.css' layer(components);
+@import './compositions/grid.css' layer(components);
+@import './compositions/repel.css' layer(components);
+@import './compositions/sidebar.css' layer(components);
+@import './compositions/switcher.css' layer(components);
+@import './compositions/wrapper.css' layer(components);
+@import './blocks/index.css' layer(components);
+@import './utilities/region.css' layer(utilities);
+
+/*
+ * CUBE CSS
+ * Composition: ./compositions
+ * Utility: Tailwind CSS
+ * Custom Utility: ./utilities
+ * Block and Exception: ./blocks
+ * Composition patterns adapted from:
+ * https://github.com/Set-Creative-Studio/cube-boilerplate
+ */
+@theme {
+	--font-sans: 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+}
