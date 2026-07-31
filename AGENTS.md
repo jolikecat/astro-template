@@ -1,12 +1,3 @@
-# CSS
-
-- Use CUBE CSS as a decision framework: layout belongs to Composition, component-specific appearance to Block, and small intentional overrides to Tailwind utilities.
-- Keep Base limited to project-wide defaults that improve the unstyled experience. Do not duplicate Tailwind Preflight.
-- Prefer low-specificity selectors, inheritance, and the cascade. Utilities must be able to override Blocks without `!important`.
-- Promote repeated design values to Tailwind theme tokens; reserve arbitrary values for genuine one-offs.
-- Order class groups as Block, Composition, Utility. Separate groups with a literal `|`, never square brackets: `class="card | flow wrapper | text-body-sm"`.
-- Express Block variants and state as `data-*` exceptions instead of modifier class names.
-
 # Images
 
 - Keep images that Astro should optimize or transform in `src`; place assets that must be served unchanged in `public`.
@@ -19,3 +10,7 @@
 # Development Server
 
 - Respect Astro’s dev-server lock by default. Use `--ignore-lock` only when an intentional, temporary second server is required, and stop that process explicitly because Astro’s `dev stop`, `dev status`, and `dev logs` commands do not track it.
+
+# Documentation
+
+- When updating `AGENTS.md`, update `AGENTS-ja.md` in the same change so the Japanese translation remains consistent with the canonical English instructions.

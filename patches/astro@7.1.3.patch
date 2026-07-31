@@ -36,3 +36,19 @@ index 377cdae77123d04e66e7e1b709277701f24d44bc..365c9d3a1cdbc531de994716dc2b7956
            const imageMetadata = await emitImageMetadata(id, fileEmitter);
            if (!imageMetadata) {
              throw new AstroError({
+diff --git a/dist/assets/build/generate.js b/dist/assets/build/generate.js
+index 338560525619964703b83fe4e6add31baaf216ed..7517364845b15d302a86f089ca468286de7d6c67 100644
+--- a/dist/assets/build/generate.js
++++ b/dist/assets/build/generate.js
+@@ -53,7 +53,10 @@ async function generateImagesForPath(originalFilePath, transformsAndPath, env) {
+   for (const [_, transform] of transformsAndPath.transforms) {
+     await generateImage(transform.finalPath, transform.transform);
+   }
+-  if (transformsAndPath.originalSrcPath && !globalThis.astroAsset.referencedImages?.has(transformsAndPath.originalSrcPath)) {
++  const originalOutputIsGenerated = Array.from(
++    transformsAndPath.transforms.values()
++  ).some(({ finalPath }) => finalPath === originalFilePath);
++  if (transformsAndPath.originalSrcPath && !globalThis.astroAsset.referencedImages?.has(transformsAndPath.originalSrcPath) && !originalOutputIsGenerated) {
+     try {
+       if (transformsAndPath.originalSrcPath) {
+         env.logger.debug(
