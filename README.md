@@ -1,14 +1,19 @@
 # astro-template
 
-## Usage
+## 使い方
 
 ```shell
-# Installs dependencies
+# 依存パッケージをインストールします
 $ pnpm install
 
-# Starts local dev server at localhost:4321
+# localhost:4321 で開発サーバーを起動します
 $ pnpm dev
 
-# Build for production
+# 本番用にビルドします
 $ pnpm build
+
+# すべてのファイルを Prettier で整形します
+$ pnpm format
 ```
+
+ステージ済みのファイルは husky と lint-staged によってコミット時に自動で整形されるため、`pnpm format` はプロジェクト全体を一括で整形したいときにのみ必要です。
