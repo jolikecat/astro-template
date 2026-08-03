@@ -1,8 +1,32 @@
+# CSS
+
+- Style with Tailwind utility classes in markup. Do not layer a separate CSS methodology or bespoke component class names on top of them.
+- Promote repeated design values to Tailwind theme tokens with `@theme` in `src/assets/styles/global.css`; reserve arbitrary values for genuine one-offs.
+- Keep the `@layer base` block in `global.css` limited to project-wide defaults that improve the unstyled experience. Do not duplicate Tailwind Preflight.
+- Prefer utilities over `@apply`. Reach for `@apply` only for markup you cannot annotate directly, such as generated or third-party HTML.
+- Express component variants and state as `data-*` attributes and target them with Tailwind’s `data-*` variants instead of modifier class names.
+- Let `prettier-plugin-tailwindcss` order class lists; run `pnpm format` instead of sorting classes by hand.
+
 # Images
 
-- Keep images that Astro should optimize or transform in `src`; place assets that must be served unchanged in `public`.
-- Store images shared across pages or components in `src/assets/images/common`; store page-specific images in `src/assets/images/pages`, grouped by page when needed.
-- Keep OGP images in `public` so they are available at stable, direct URLs.
+Every image resolves to `/assets/images/...` in the browser. Two source roots produce that single tree: `src` for anything Astro should optimize or transform, and `public` for assets that must be served byte-for-byte.
+
+```
+src/assets/images/
+├── common/                  # shared across pages or components
+└── pages/                   # mirrors the directory structure of src/pages
+    └── news/
+        ├── common/          # shared by every page under src/pages/news/
+        └── index/           # used only by src/pages/news/index.astro
+
+public/assets/images/
+├── common/                  # symbols.svg and other assets referenced directly by URL
+└── ogp.jpg, ...             # site-wide singletons, at the root
+```
+
+- Under `pages`, `common` holds the images shared by the pages beneath it, and a directory named after a page file without its extension holds the images that only that page uses. Images shared site-wide belong in the top-level `common`, never in `pages/common`.
+- Keep site-wide files that external services fetch by absolute URL — OGP images, favicons, touch icons — at the root of `public/assets/images`. They must not be optimized, renamed, or converted.
+- Both roots emit into the same `assets/images` tree in the build output, so file names must not collide across them.
 - Render PNG and JPEG sources with Astro’s `Picture` component, serving WebP with the original format as the fallback.
 - Ensure SVGs imported from `src` are optimized with Astro’s SVGO optimizer, configured through the experimental `svgOptimizer` flag in `astro.config.mjs`. Optimization runs only in production builds, so verify the result with `pnpm build` instead of the development server. SVGs in `public` require no processing.
 - Add reusable icons as symbols in `public/assets/images/common/symbols.svg` and reference them with `<use href="/assets/images/common/symbols.svg#icon-name">`. Hide decorative icons from assistive technology; provide an accessible name when an icon conveys meaning.

@@ -2,11 +2,35 @@
 
 このファイルは、人間が確認するための [`AGENTS.md`](./AGENTS.md) の日本語訳です。エージェント向けの正式な指示は `AGENTS.md` です。内容が矛盾する場合は `AGENTS.md` を優先してください。
 
+## CSS
+
+- スタイルはマークアップ内の Tailwind のユーティリティクラスで指定します。これに重ねて別の CSS 設計手法や独自のコンポーネントクラス名を導入しません。
+- 繰り返し使うデザイン値は `src/assets/styles/global.css` の `@theme` で Tailwind のテーマトークンに昇格させ、任意の値は本当に一度しか使わない場合に限って使用します。
+- `global.css` の `@layer base` は、スタイル未適用時の表示を改善するプロジェクト全体の既定値に限定します。Tailwind Preflight と重複させません。
+- `@apply` よりユーティリティクラスを優先します。`@apply` は、生成された HTML やサードパーティの HTML など、マークアップに直接クラスを書けない場合に限って使用します。
+- コンポーネントのバリアントや状態は、修飾クラス名ではなく `data-*` 属性で表現し、Tailwind の `data-*` バリアントで指定します。
+- クラスの並び順は `prettier-plugin-tailwindcss` に任せ、手作業で並べ替えず `pnpm format` を実行します。
+
 ## 画像
 
-- Astro で最適化または変換する画像は `src` に置き、加工せずそのまま配信する必要があるアセットは `public` に置きます。
-- 複数のページやコンポーネントで共有する画像は `src/assets/images/common` に置き、ページ固有の画像は `src/assets/images/pages` に置きます。必要に応じてページごとに分類します。
-- OGP 画像は、安定した直接 URL で利用できるように `public` に置きます。
+画像はすべてブラウザー上で `/assets/images/...` として解決されます。この単一のツリーは 2 つのソースルートから生成されます。Astro で最適化または変換するものは `src`、バイト単位でそのまま配信する必要があるものは `public` です。
+
+```
+src/assets/images/
+├── common/                  # 複数のページやコンポーネントで共有
+└── pages/                   # src/pages のディレクトリ構成をミラーする
+    └── news/
+        ├── common/          # src/pages/news/ 配下のすべてのページで共有
+        └── index/           # src/pages/news/index.astro だけで使用
+
+public/assets/images/
+├── common/                  # symbols.svg など URL で直接参照するアセット
+└── ogp.jpg, ...             # サイト全体で使う単体ファイル。ルート直下に置く
+```
+
+- `pages` 配下では、`common` に配下のページで共有する画像を置き、拡張子を除いたページファイル名のディレクトリにそのページだけで使う画像を置きます。サイト全体で共有する画像は最上位の `common` に置き、`pages/common` は作りません。
+- 外部サービスが絶対 URL で取得するサイト全体のファイル（OGP 画像、ファビコン、タッチアイコン）は `public/assets/images` のルート直下に置きます。これらは最適化・リネーム・形式変換を行いません。
+- 2 つのルートはビルド出力で同一の `assets/images` ツリーに出力されるため、ルート間でファイル名が衝突しないようにします。
 - PNG および JPEG の画像は Astro の `Picture` コンポーネントで表示し、WebP と元の画像形式をフォールバックとして配信します。
 - `src` からインポートする SVG は Astro の SVGO オプティマイザーで最適化します。設定は `astro.config.mjs` の実験的フラグ `svgOptimizer` で行います。最適化が実行されるのは本番ビルド時のみのため、結果の確認は開発サーバーではなく `pnpm build` で行います。`public` 内の SVG は処理不要です。
 - 再利用するアイコンは `public/assets/images/common/symbols.svg` にシンボルとして追加し、`<use href="/assets/images/common/symbols.svg#icon-name">` で参照します。装飾目的のアイコンは支援技術から隠し、意味を伝えるアイコンにはアクセシブルな名前を付けます。
