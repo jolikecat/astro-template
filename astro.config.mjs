@@ -70,6 +70,7 @@ const optimizeSourceSvgAssets = {
 export default defineConfig({
 	site: 'https://example.com/',
 	compressHTML: false,
+	session: false,
 	build: {
 		format: 'preserve',
 		assets: 'assets',
@@ -86,6 +87,7 @@ export default defineConfig({
 		},
 	},
 	experimental: {
+		incrementalBuild: true,
 		svgOptimizer,
 	},
 	vite: {
