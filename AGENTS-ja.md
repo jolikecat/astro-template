@@ -13,7 +13,7 @@
 
 ## 画像
 
-画像はすべてブラウザー上で `/assets/images/...` として解決されます。この単一のツリーは 2 つのソースルートから生成されます。Astro で最適化または変換するものは `src`、バイト単位でそのまま配信する必要があるものは `public` です。
+画像はすべてブラウザー上で `/assets/images/...` として解決されます。この単一のツリーは 2 つのソースルートから生成されます。Astro で最適化または変換するラスター画像は `src`、SVG およびバイト単位でそのまま配信する必要があるものは `public` です。
 
 ```
 src/assets/images/
@@ -24,7 +24,8 @@ src/assets/images/
         └── index/           # src/pages/news/index.astro だけで使用
 
 public/assets/images/
-├── common/                  # symbols.svg など URL で直接参照するアセット
+├── common/                  # symbols.svg を含む、共有の SVG や無変換で配信する画像
+├── pages/                   # ページ固有の無変換で配信する画像。上記の src ツリーと同様に src/pages をミラーする
 └── ogp.jpg, ...             # サイト全体で使う単体ファイル。ルート直下に置く
 ```
 
@@ -32,7 +33,7 @@ public/assets/images/
 - 外部サービスが絶対 URL で取得するサイト全体のファイル（OGP 画像、ファビコン、タッチアイコン）は `public/assets/images` のルート直下に置きます。これらは最適化・リネーム・形式変換を行いません。
 - 2 つのルートはビルド出力で同一の `assets/images` ツリーに出力されるため、ルート間でファイル名が衝突しないようにします。
 - PNG および JPEG の画像は Astro の `Picture` コンポーネントで表示し、WebP と元の画像形式をフォールバックとして配信します。
-- `src` からインポートする SVG は Astro の SVGO オプティマイザーで最適化します。設定は `astro.config.mjs` の実験的フラグ `svgOptimizer` で行います。最適化が実行されるのは本番ビルド時のみのため、結果の確認は開発サーバーではなく `pnpm build` で行います。`public` 内の SVG は処理不要です。
+- SVG はすべて `public/assets/images` に置き、ルート相対の `/assets/images/...` URL で参照します。SVG を `src` からインポートしたり、Astro の `Image` または `Picture` コンポーネントで表示したりしません。Astro は最適化や変換をせずにファイルをコピーするため、必要に応じて追加前にソースファイル自体を最適化します。
 - 再利用するアイコンは `public/assets/images/common/symbols.svg` にシンボルとして追加し、`<use href="/assets/images/common/symbols.svg#icon-name">` で参照します。装飾目的のアイコンは支援技術から隠し、意味を伝えるアイコンにはアクセシブルな名前を付けます。
 
 ## アクセシビリティ

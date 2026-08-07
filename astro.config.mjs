@@ -1,25 +1,10 @@
 import path from 'node:path';
 
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig, svgoOptimizer } from 'astro/config';
+import { defineConfig } from 'astro/config';
 
 const imageQuality = 70;
-const imageExtensionPattern = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
-const svgOptimizer = svgoOptimizer({
-	multipass: true,
-	floatPrecision: 3,
-	plugins: [
-		{
-			name: 'preset-default',
-			params: {
-				overrides: {
-					convertPathData: { transformPrecision: 3 },
-					convertTransform: { transformPrecision: 3 },
-				},
-			},
-		},
-	],
-});
+const imageExtensionPattern = /\.(?:avif|gif|jpe?g|png|webp)$/i;
 
 const assetFileNames = (assetInfo) => {
 	const assetName = assetInfo.names?.[0] ?? assetInfo.name ?? '';
@@ -42,31 +27,6 @@ const assetFileNames = (assetInfo) => {
 
 	return `assets/${directory}/${fileName}[extname]`;
 };
-
-const optimizeSourceSvgAssets = {
-	name: 'optimize-source-svg-assets',
-	enforce: 'post',
-	async generateBundle(_options, bundle) {
-		await Promise.all(
-			Object.values(bundle).map(async (output) => {
-				if (output.type !== 'asset' || path.extname(output.fileName) !== '.svg') return;
-
-				const isFromSource = output.originalFileNames.some((fileName) => {
-					const normalizedFileName = fileName.replaceAll('\\', '/');
-
-					return normalizedFileName.startsWith('src/') || normalizedFileName.includes('/src/');
-				});
-
-				if (!isFromSource) return;
-
-				const source = typeof output.source === 'string' ? output.source : new TextDecoder().decode(output.source);
-
-				output.source = await svgOptimizer.optimize(source);
-			}),
-		);
-	},
-};
-
 export default defineConfig({
 	site: 'https://example.com/',
 	compressHTML: false,
@@ -88,10 +48,9 @@ export default defineConfig({
 	},
 	experimental: {
 		incrementalBuild: true,
-		svgOptimizer,
 	},
 	vite: {
-		plugins: [tailwindcss(), optimizeSourceSvgAssets],
+		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
 				'@': path.resolve('./src'),

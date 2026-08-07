@@ -9,7 +9,7 @@
 
 # Images
 
-Every image resolves to `/assets/images/...` in the browser. Two source roots produce that single tree: `src` for anything Astro should optimize or transform, and `public` for assets that must be served byte-for-byte.
+Every image resolves to `/assets/images/...` in the browser. Two source roots produce that single tree: `src` for raster images Astro should optimize or transform, and `public` for SVGs and other assets that must be served byte-for-byte.
 
 ```
 src/assets/images/
@@ -20,7 +20,8 @@ src/assets/images/
         └── index/           # used only by src/pages/news/index.astro
 
 public/assets/images/
-├── common/                  # symbols.svg and other assets referenced directly by URL
+├── common/                  # shared SVGs and other byte-for-byte assets, including symbols.svg
+├── pages/                   # page-specific byte-for-byte assets; mirrors src/pages like the src tree above
 └── ogp.jpg, ...             # site-wide singletons, at the root
 ```
 
@@ -28,7 +29,7 @@ public/assets/images/
 - Keep site-wide files that external services fetch by absolute URL — OGP images, favicons, touch icons — at the root of `public/assets/images`. They must not be optimized, renamed, or converted.
 - Both roots emit into the same `assets/images` tree in the build output, so file names must not collide across them.
 - Render PNG and JPEG sources with Astro’s `Picture` component, serving WebP with the original format as the fallback.
-- Ensure SVGs imported from `src` are optimized with Astro’s SVGO optimizer, configured through the experimental `svgOptimizer` flag in `astro.config.mjs`. Optimization runs only in production builds, so verify the result with `pnpm build` instead of the development server. SVGs in `public` require no processing.
+- Place every SVG in `public/assets/images` and reference it with a root-relative `/assets/images/...` URL. Do not import SVGs from `src` or render them with Astro’s `Image` or `Picture` components. Astro copies these files without optimization or transformation, so optimize the source file before adding it when necessary.
 - Add reusable icons as symbols in `public/assets/images/common/symbols.svg` and reference them with `<use href="/assets/images/common/symbols.svg#icon-name">`. Hide decorative icons from assistive technology; provide an accessible name when an icon conveys meaning.
 
 # Accessibility
