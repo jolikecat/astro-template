@@ -12,8 +12,14 @@ $ pnpm dev
 # 本番用にビルドします
 $ pnpm build
 
+# JavaScript、TypeScript、Astro ファイルを検査します
+$ pnpm lint
+
+# ESLint で自動修正できる問題を修正します
+$ pnpm lint:fix
+
 # すべてのファイルを Prettier で整形します
 $ pnpm format
 ```
 
-ステージ済みのファイルは husky と lint-staged によってコミット時に自動で整形されるため、`pnpm format` はプロジェクト全体を一括で整形したいときにのみ必要です。
+ステージ済みの JavaScript、TypeScript、Astro ファイルは husky と lint-staged によってコミット時に自動検査・整形されます。`pnpm lint` と `pnpm format` は、プロジェクト全体を一括で確認したいときに使用してください。
