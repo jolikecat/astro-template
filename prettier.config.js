@@ -8,7 +8,6 @@ const config = {
 	singleQuote: true,
 	trailingComma: 'all',
 	useTabs: true,
-	htmlWhitespaceSensitivity: 'ignore',
 	plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
 	tailwindStylesheet: './src/assets/styles/global.css',
 	overrides: [
