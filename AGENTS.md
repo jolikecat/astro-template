@@ -9,27 +9,28 @@
 
 # Images
 
-Every image resolves to `/assets/images/...` in the browser. Two source roots produce that single tree: `src` for raster images Astro should optimize or transform, and `public` for SVGs and other assets that must be served byte-for-byte.
+Every image is served from `public`. Astro does not optimize images. Process image files with `tools/image-compressor` before using them; its `input` tree mirrors `public` exactly.
 
 ```
-src/assets/images/
-├── common/                  # shared across pages or components
-└── pages/                   # mirrors the directory structure of src/pages
-    └── news/
-        ├── common/          # shared by every page under src/pages/news/
-        └── index/           # used only by src/pages/news/index.astro
+tools/image-compressor/input/
+├── assets/images/
+│   ├── common/              # temporary input for shared images
+│   └── pages/               # temporary input; mirrors src/pages
+└── ogp.jpg, ...             # temporary input for root-level public images
 
-public/assets/images/
-├── common/                  # shared SVGs and other byte-for-byte assets, including symbols.svg
-├── pages/                   # page-specific byte-for-byte assets; mirrors src/pages like the src tree above
-└── ogp.jpg, ...             # site-wide singletons, at the root
+public/
+├── assets/images/
+│   ├── common/              # compressed shared images, including symbols.svg
+│   └── pages/               # compressed page-specific images; mirrors src/pages
+└── ogp.jpg, ...             # compressed root-level public images
 ```
 
 - Under `pages`, `common` holds the images shared by the pages beneath it, and a directory named after a page file without its extension holds the images that only that page uses. Images shared site-wide belong in the top-level `common`, never in `pages/common`.
-- Keep site-wide files that external services fetch by absolute URL — OGP images, favicons, touch icons — at the root of `public/assets/images`. They must not be optimized, renamed, or converted.
-- Both roots emit into the same `assets/images` tree in the build output, so file names must not collide across them.
-- Render PNG and JPEG sources with Astro’s `Picture` component, serving WebP with the original format as the fallback.
-- Place every SVG in `public/assets/images` and reference it with a root-relative `/assets/images/...` URL. Do not import SVGs from `src` or render them with Astro’s `Image` or `Picture` components. Astro copies these files without optimization or transformation, so optimize the source file before adding it when necessary.
+- Put images in `tools/image-compressor/input` using the same relative path they should have under `public`, then run `pnpm images:compress`. The command preserves directories, overwrites matching outputs, and does not delete other files from `public`.
+- The compressor handles JPEG, PNG, WebP, AVIF, and GIF with Sharp and SVG with SVGO. Its quality, extensions, outputs, and SVGO options are defined in `tools/image-compressor/config.json`. JPEG and PNG inputs produce both an optimized same-format fallback and a WebP file. Its `input` contents are temporary and ignored by Git; the processed files in `public` are the source-controlled assets.
+- Place ordinary site images under `assets/images`; place site-wide files that must be fetched from the site root — such as root-level OGP images, favicons, or touch icons — at the corresponding root of `public`.
+- Reference every image with the root-relative URL matching its path under `public`. Do not import images from `src` or render them with Astro’s `Image` or `Picture` components.
+- Render JPEG and PNG assets with a native `<picture>` containing a WebP `<source>` and the same-format `<img>` fallback. Specify `width` and `height` on `<img>` to prevent layout shifts, and add appropriate loading behavior for the image’s role.
 - Add reusable icons as symbols in `public/assets/images/common/symbols.svg` and reference them with `<use href="/assets/images/common/symbols.svg#icon-name">`. Hide decorative icons from assistive technology; provide an accessible name when an icon conveys meaning.
 
 # Accessibility

@@ -13,27 +13,28 @@
 
 ## 画像
 
-画像はすべてブラウザー上で `/assets/images/...` として解決されます。この単一のツリーは 2 つのソースルートから生成されます。Astro で最適化または変換するラスター画像は `src`、SVG およびバイト単位でそのまま配信する必要があるものは `public` です。
+画像はすべて `public` から配信されます。Astro では画像を最適化しません。画像ファイルは使用前に `tools/image-compressor` で処理し、その `input` ツリーは `public` をそのままミラーします。
 
 ```
-src/assets/images/
-├── common/                  # 複数のページやコンポーネントで共有
-└── pages/                   # src/pages のディレクトリ構成をミラーする
-    └── news/
-        ├── common/          # src/pages/news/ 配下のすべてのページで共有
-        └── index/           # src/pages/news/index.astro だけで使用
+tools/image-compressor/input/
+├── assets/images/
+│   ├── common/              # 共有画像の一時入力
+│   └── pages/               # 一時入力。src/pages の構成をミラーする
+└── ogp.jpg, ...             # public 直下に置く画像の一時入力
 
-public/assets/images/
-├── common/                  # symbols.svg を含む、共有の SVG や無変換で配信する画像
-├── pages/                   # ページ固有の無変換で配信する画像。上記の src ツリーと同様に src/pages をミラーする
-└── ogp.jpg, ...             # サイト全体で使う単体ファイル。ルート直下に置く
+public/
+├── assets/images/
+│   ├── common/              # symbols.svg を含む、圧縮済みの共有画像
+│   └── pages/               # 圧縮済みのページ固有画像。src/pages の構成をミラーする
+└── ogp.jpg, ...             # public 直下で配信する圧縮済み画像
 ```
 
 - `pages` 配下では、`common` に配下のページで共有する画像を置き、拡張子を除いたページファイル名のディレクトリにそのページだけで使う画像を置きます。サイト全体で共有する画像は最上位の `common` に置き、`pages/common` は作りません。
-- 外部サービスが絶対 URL で取得するサイト全体のファイル（OGP 画像、ファビコン、タッチアイコン）は `public/assets/images` のルート直下に置きます。これらは最適化・リネーム・形式変換を行いません。
-- 2 つのルートはビルド出力で同一の `assets/images` ツリーに出力されるため、ルート間でファイル名が衝突しないようにします。
-- PNG および JPEG の画像は Astro の `Picture` コンポーネントで表示し、WebP と元の画像形式をフォールバックとして配信します。
-- SVG はすべて `public/assets/images` に置き、ルート相対の `/assets/images/...` URL で参照します。SVG を `src` からインポートしたり、Astro の `Image` または `Picture` コンポーネントで表示したりしません。Astro は最適化や変換をせずにファイルをコピーするため、必要に応じて追加前にソースファイル自体を最適化します。
+- `tools/image-compressor/input` に `public` 配下で使用したい相対パスと同じ構成で画像を置き、`pnpm images:compress` を実行します。このコマンドはディレクトリ構造を維持して同名の出力を上書きし、`public` 内のほかのファイルは削除しません。
+- コンプレッサーは JPEG、PNG、WebP、AVIF、GIF を Sharp で、SVG を SVGO で処理します。品質、拡張子、出力形式、SVGO オプションは `tools/image-compressor/config.json` で定義します。JPEG と PNG の入力からは、最適化した同形式のフォールバックと WebP の両方を生成します。`input` の内容は一時ファイルとして Git から除外し、`public` 内の処理済みファイルを Git 管理します。
+- 通常のサイト画像は `assets/images` 配下に置き、ルートから取得する必要があるサイト全体のファイル（ルート配置の OGP 画像、ファビコン、タッチアイコンなど）は、対応する `public` のルート直下に置きます。
+- すべての画像は `public` 配下のパスに対応するルート相対 URL で参照します。画像を `src` からインポートしたり、Astro の `Image` または `Picture` コンポーネントで表示したりしません。
+- JPEG と PNG は、WebP の `<source>` と同形式の `<img>` フォールバックを含むネイティブの `<picture>` で表示します。レイアウトシフトを防ぐため `<img>` に `width` と `height` を指定し、画像の役割に応じた読み込み方法も指定します。
 - 再利用するアイコンは `public/assets/images/common/symbols.svg` にシンボルとして追加し、`<use href="/assets/images/common/symbols.svg#icon-name">` で参照します。装飾目的のアイコンは支援技術から隠し、意味を伝えるアイコンにはアクセシブルな名前を付けます。
 
 ## アクセシビリティ

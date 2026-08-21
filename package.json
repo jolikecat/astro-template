@@ -8,30 +8,30 @@
 		"dev": "astro dev",
 		"format": "prettier -w .",
 		"format:dist": "prettier -w ./dist/ --ignore-path .prettierignore",
+		"images:compress": "node tools/image-compressor/compress.mjs",
 		"lint": "eslint . --max-warnings 0",
 		"lint:fix": "pnpm run lint --fix",
 		"prepare": "husky",
 		"preview": "astro preview --host",
 		"start": "astro dev"
 	},
-	"dependencies": {
-		"sharp": "^0.35.3"
-	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
 		"@tailwindcss/vite": "^4.3.3",
-		"astro": "^7.2.0",
-		"eslint": "^10.8.0",
+		"astro": "^7.2.3",
+		"eslint": "^10.8.1",
 		"eslint-plugin-astro": "^3.1.0",
-		"globals": "^17.9.0",
+		"globals": "^17.11.0",
 		"husky": "^9.1.7",
-		"lint-staged": "^17.1.0",
-		"prettier": "^3.9.5",
+		"lint-staged": "^17.3.0",
+		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-package": "^2.0.0",
 		"prettier-plugin-tailwindcss": "^0.8.1",
-		"rollup": "4.59.0",
+		"rollup": "4.62.4",
+		"sharp": "^0.35.3",
+		"svgo": "^4.0.2",
 		"tailwindcss": "^4.3.3",
-		"typescript-eslint": "^8.66.0"
+		"typescript-eslint": "^8.67.0"
 	}
 }

@@ -1,0 +1,44 @@
+{
+	"quality": 70,
+	"formats": {
+		"jpeg": {
+			"extensions": [".jpg", ".jpeg"],
+			"outputs": ["source", "webp"]
+		},
+		"png": {
+			"extensions": [".png"],
+			"outputs": ["source", "webp"]
+		},
+		"webp": {
+			"extensions": [".webp"],
+			"outputs": ["source"]
+		},
+		"avif": {
+			"extensions": [".avif"],
+			"outputs": ["source"]
+		},
+		"gif": {
+			"extensions": [".gif"],
+			"outputs": ["source"]
+		},
+		"svg": {
+			"extensions": [".svg"],
+			"outputs": ["source"]
+		}
+	},
+	"svgo": {
+		"multipass": true,
+		"floatPrecision": 3,
+		"plugins": [
+			{
+				"name": "preset-default",
+				"params": {
+					"overrides": {
+						"convertPathData": { "transformPrecision": 3 },
+						"convertTransform": { "transformPrecision": 3 }
+					}
+				}
+			}
+		]
+	}
+}
